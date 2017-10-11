@@ -17,8 +17,8 @@ public class LineItem {
     //----------------------//
     
     public final void setProductId(String productId){
-        if(productId == null || !productId.matches("[A-Z]\\d{3}"))
-            throw new IllegalArgumentException("Product Id Must Match A### Format");
+        if(productId == null)
+            throw new IllegalArgumentException("Product Id May Not Be Null");
         this.productId = productId;
     }
     

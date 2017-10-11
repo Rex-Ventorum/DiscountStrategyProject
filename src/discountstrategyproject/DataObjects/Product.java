@@ -21,8 +21,8 @@ public class Product {
     //----------------------//
     
     public final void setProductId(String productId){
-        if(productId == null || !productId.matches("[A-Z]\\d{3}"))
-            throw new IllegalArgumentException("Product ID Must Be A###");
+        if(productId == null)
+            throw new IllegalArgumentException("Product ID May Not Be Null");
         this.productId = productId;
     }
     

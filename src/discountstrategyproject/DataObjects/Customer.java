@@ -22,8 +22,8 @@ public class Customer {
     //----------------------//
     
     public final void setCustomerId(String customerId){
-        if(customerId == null || !customerId.matches("[A-Z]{2}\\d{3}"))
-            throw new IllegalArgumentException("Customer ID Must AA### format");
+        if(customerId == null)
+            throw new IllegalArgumentException("Customer ID May Not Be Null");
         this.customerId = customerId;
     }
     
