@@ -13,10 +13,24 @@ public class Receipt {
     private String customerId;
     private LineItem[] lineItems;
     
+    public static void main(String[] args) {
+        Receipt test = new Receipt("","");
+        test.addProduct("ITEM1", 2);
+        test.addProduct("ITEM2", 4);
+        test.addProduct("ITEM3", 10);
+        test.addProduct("ITEM1",3);
+        for(LineItem li : test.getLineItems()){
+            System.out.println(li.getProductId() + " : " + li.getQuantity());
+        }
+    }
     
     //----------------------//
     //---- Constructor -----//
     //----------------------//
+    
+    public Receipt(String sellerName, String customerId){
+        this(Calendar.getInstance().getTime(),sellerName,customerId);
+    }
     
     public Receipt(Date timeStamp,String sellerName, String customerId){
         this(timeStamp,sellerName,customerId,new LineItem[]{});
@@ -32,8 +46,7 @@ public class Receipt {
     //----------------------//
     
     public final boolean addProduct(String productId, int quantity){
-        if(productId == null) throw new IllegalArgumentException("Product Id May Not Be Null");
-        if(quantity < 0) throw new IllegalArgumentException("Quantity may not be negitive");
+        testAddRemoveArgumentValilidy(productId,quantity); //Will crash here if invalid
         boolean itemWasAdded = false;
         
         //Check if product already exsists
@@ -60,11 +73,19 @@ public class Receipt {
         return itemWasAdded;
     }
     
+    public final boolean removeProduct(String productId, int quantity){
+        testAddRemoveArgumentValilidy(productId,quantity); //Will crash here if invalid
+        boolean itemWasRemoved = true;
+        
+        //Check for existing item
+        for(LineItem li :)
+    }
+    
     //----------------------//
     //--- Setter Methods ---//
     //----------------------//
     public final void setTimeStamp(Date date){
-        if(date != null || dateIsInFuture(date))
+        if(date == null || dateIsInFuture(date))
             throw new IllegalArgumentException("Date May Not be Null or In the Future");
         timeStamp = date;
     }
@@ -113,5 +134,10 @@ public class Receipt {
     private final boolean dateIsInFuture(Date testDate){
         Date today = Calendar.getInstance().getTime();
         return testDate.after(today);
+    }
+    
+    private final void testAddRemoveArgumentValilidy(String productId, int quantity){
+        if(productId == null) throw new IllegalArgumentException("Product Id May Not Be Null");
+        if(quantity < 0) throw new IllegalArgumentException("Quantity may not be negitive");
     }
 }
