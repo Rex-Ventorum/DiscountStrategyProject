@@ -13,17 +13,6 @@ public class Receipt {
     private String customerId;
     private LineItem[] lineItems;
     
-    public static void main(String[] args) {
-        Receipt test = new Receipt("","");
-        test.addProduct("ITEM1", 2);
-        test.addProduct("ITEM2", 4);
-        test.addProduct("ITEM3", 10);
-        test.addProduct("ITEM1",3);
-        for(LineItem li : test.getLineItems()){
-            System.out.println(li.getProductId() + " : " + li.getQuantity());
-        }
-    }
-    
     //----------------------//
     //---- Constructor -----//
     //----------------------//
@@ -73,12 +62,37 @@ public class Receipt {
         return itemWasAdded;
     }
     
+    public final boolean removeProduct(String productId){return removeProduct(productId,Integer.MAX_VALUE);}
     public final boolean removeProduct(String productId, int quantity){
         testAddRemoveArgumentValilidy(productId,quantity); //Will crash here if invalid
         boolean itemWasRemoved = true;
         
         //Check for existing item
-        for(LineItem li :)
+        LineItem existing = null;
+        int removalIndex = 0;
+        for(int i =0; i<lineItems.length; i++){
+            if(lineItems[i].getProductId().equals(productId)){
+                existing = lineItems[i]; removalIndex = i; break;
+            }
+        }
+        
+        //if product already on recipt duduct quanity from lineItem or remove it alltogether
+        if(existing != null){
+            //Remove completly if quantity is greater or equal to existing quanity
+            if(existing.getQuantity() <= quantity){
+                LineItem[] newArray = new LineItem[lineItems.length-1];
+                for(int i=0; i<newArray.length; i++){
+                    if(i < removalIndex) newArray[i] = lineItems[i];
+                    else newArray[i] = lineItems[i+1];
+                }//end of for loop
+                lineItems = newArray;
+            //Subtract Quantity if product exists and deduction would leave non negitive non zero amount
+            }else{
+                existing.setQuantity(existing.getQuantity()-quantity);
+                itemWasRemoved = false;
+            }
+        }
+        return itemWasRemoved;
     }
     
     //----------------------//
