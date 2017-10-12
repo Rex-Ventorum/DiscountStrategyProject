@@ -18,12 +18,12 @@ public class PercentOffPerItemDiscount implements Discount{
     }
     
     @Override
-    public double calculateDiscount(double unitCost, int quantity) {
+    public final double calculateDiscount(double unitCost, int quantity) {
         return (unitCost * quantity) - calculateSavings(unitCost, quantity);
     }
 
     @Override
-    public double calculateSavings(double unitCost, int quantity) {
+    public final double calculateSavings(double unitCost, int quantity) {
         return (unitCost*percentOff) * quantity;
     }
    
