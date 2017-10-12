@@ -11,7 +11,7 @@ public class LineItem {
         setProductId(productId);
         setQuantity(quantity);
     }
-    
+  
     //----------------------//
     //--- Setter Methods ---//
     //----------------------//
@@ -31,11 +31,11 @@ public class LineItem {
     //--- Getter Methods ---//
     //----------------------//
 
-    public String getProductId() {
+    public final String getProductId() {
         return productId;
     }
 
-    public int getQuantity() {
+    public final int getQuantity() {
         return quantity;
     }
     
