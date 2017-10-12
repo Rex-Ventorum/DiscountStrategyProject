@@ -1,4 +1,6 @@
-package discountstrategyproject.DataObjects;
+package DataObjects;
+
+import DataObjects.Discounts.Discount;
 
 public class Product {
     private String productId;

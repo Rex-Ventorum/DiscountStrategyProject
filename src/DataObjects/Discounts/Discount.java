@@ -1,4 +1,4 @@
-package discountstrategyproject.DataObjects;
+package DataObjects.Discounts;
 
 public interface Discount {
     public abstract double calculateDiscount(double unitCost, int quantity);

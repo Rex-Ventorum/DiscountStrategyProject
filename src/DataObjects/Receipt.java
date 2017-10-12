@@ -1,5 +1,5 @@
 
-package discountstrategyproject.DataObjects;
+package DataObjects;
 
 import java.util.Arrays;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package discountstrategyproject.DataObjects;
+package DataObjects;
 
 public class LineItem {
     private String productId;

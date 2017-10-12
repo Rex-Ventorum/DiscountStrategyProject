@@ -1,4 +1,4 @@
-package discountstrategyproject.DataObjects;
+package DataObjects;
 
 public class Customer {
     private static final int MAX_NAME_LENGTH = 15;
