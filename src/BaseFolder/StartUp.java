@@ -1,0 +1,4 @@
+package BaseFolder;
+public class StartUp {
+    // NO DEFAULTS TO STRATAGIE ITEMS ASIDE FROM DISCOUNTS WHICH SHOULD BE HARD CODED
+}

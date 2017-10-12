@@ -1,5 +1,5 @@
 
-package DataObjects;
+package BaseFolder.DataObjects;
 
 import java.util.Arrays;
 import java.util.Calendar;

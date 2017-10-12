@@ -1,4 +1,4 @@
-package DataObjects;
+package BaseFolder.DataObjects;
 
 public class LineItem {
     private String productId;

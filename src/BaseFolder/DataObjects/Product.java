@@ -1,6 +1,6 @@
-package DataObjects;
+package BaseFolder.DataObjects;
 
-import DataObjects.Discounts.Discount;
+import BaseFolder.DataObjects.Discounts.Discount;
 
 public class Product {
     private String productId;
