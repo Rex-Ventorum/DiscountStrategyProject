@@ -1,4 +1,4 @@
-package BaseFolder.ReceiptFormatter;
+package BaseFolder.ReceiptFormatterInterface;
 import BaseFolder.DataObjects.Receipt;
 
 public interface ReceiptFormatter {

@@ -15,7 +15,7 @@ public class InMemoryDatabase implements DatabaseStrategy{
     private static final Product[] PRODUCT_DATABASE = {
        new Product("M102", "Mens T-Shirt", 5.00, new NoDiscount()),
        new Product("M103", "Mens Long Pants", 7.00, new PercentOffPerItemDiscount(.25)),   
-       new Product("W102", "Womens T-Shift", 5.00, new NoDiscount()),
+       new Product("W102", "Womens T-Shirt", 5.00, new NoDiscount()),
        new Product("W103", "Womens Long Pants", 7.00, new PercentOffPerItemDiscount(.25))
     };
     

@@ -63,6 +63,16 @@ public class Product {
         return discount;
     }
     
+    //----------------------//
+    //- Functional Methods -//
+    //----------------------//
     
+    public final double calculateDiscount(int quantity){
+        return discount.calculateDiscount(unitCost, quantity);
+    }
+    
+    public final double calculateSavings(int quantity){
+        return discount.calculateSavings(unitCost, quantity);
+    }
  
 }

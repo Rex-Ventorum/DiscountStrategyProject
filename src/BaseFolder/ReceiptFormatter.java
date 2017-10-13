@@ -5,16 +5,10 @@
  */
 package BaseFolder;
 
-import BaseFolder.ReceiptFormatter.ReceiptFormatter;
-
 /**
  *
- * @author L117student
+ * @author Brandon
  */
-public class PosTerminal {
-
+class ReceiptFormatter {
     
-    public PosTerninal(ReceiptFormatter formatter) {
-
-    }
 }
