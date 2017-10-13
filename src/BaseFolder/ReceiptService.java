@@ -19,8 +19,8 @@ public class ReceiptService {
     //-- Functional Methods ---//
     //-------------------------//
     
-    public final void startNewTransaction(String customerId, String sellersName){
-        receipt = new Receipt(customerId,sellersName);
+    public final void startNewTransaction(String sellersName){
+        receipt = new Receipt(sellersName);
     }
     
     public final void addProduct(String productId, int quantity){
@@ -29,6 +29,10 @@ public class ReceiptService {
     
     public final void removeProduct(String productId, int quantity){
         receipt.removeProduct(productId, quantity);
+    }
+    
+    public final void finishTransaction(String customerId){
+        receipt.setCustomerId(customerId);
     }
     
     public final String getFormatedReceiptString(){
@@ -53,7 +57,7 @@ public class ReceiptService {
     //---- Getter Methods -----//
     //-------------------------//
 
-    public final ReceiptFormatter getFormater() {
+    public final ReceiptFormatter getReceiptFormatter() {
         return formater;
     }
 

@@ -17,6 +17,9 @@ public class Receipt {
     //---- Constructor -----//
     //----------------------//
     
+    public Receipt(String sellerName){
+        this(sellerName, "N/A");
+    }
     public Receipt(String sellerName, String customerId){
         this(Calendar.getInstance().getTime(),sellerName,customerId);
     }
