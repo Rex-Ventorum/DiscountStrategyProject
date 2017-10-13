@@ -3,7 +3,7 @@ package BaseFolder;
 import BaseFolder.OutputSourceInterface.OutputSource;
 import BaseFolder.ReceiptFormatterInterface.ReceiptFormatter;
 
-public class TEST {
+public class POSTerminal {
     private static final String NO_TRANSACTION_ERROR_MSG = "Transaction Has Not Been Started yet";
     
     //FOR INTERNAL USE ONLY
