@@ -8,10 +8,10 @@ public class GUIOutputSource implements OutputSource {
 
     @Override
     public final void outputData(Object data) {
-        Font font = UIManager.getFont("OptionPane.font");
-        UIManager.put("OptionPane.font", new Font(Font.MONOSPACED, Font.PLAIN, 50));
-        font = UIManager.getFont("OptionPane.font");
-        JOptionPane.showMessageDialog(null, data);
+        Font original = UIManager.getFont("Label.font");
+        UIManager.put("Label.font", new Font(Font.MONOSPACED,Font.PLAIN,12));
+        JOptionPane.showMessageDialog(null,data);
+        UIManager.put("Label.font", original);
     }
     
 }
