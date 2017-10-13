@@ -12,18 +12,32 @@ public class FullReceiptFormat implements ReceiptFormatter{
     
     private DatabaseStrategy database;
     
+    //-------------------------//
+    //-- Constructor Methods --//
+    //-------------------------//
+    
     public FullReceiptFormat(DatabaseStrategy database){
         setDatabase(database);
     }
+    //-------------------------//
+    //--- Interface Methods ---//
+    //-------------------------//
     
     @Override
     public final String getFormatedReciptString(Receipt receipt) {
         String formatedReciptString = "";
         formatedReciptString += getFormatedHeading(receipt);
         formatedReciptString += getFormatedBody(receipt);
+        formatedReciptString += getFormatedFooter(receipt);
         return formatedReciptString;
     }
 
+    //-------------------------//
+    //----- Helper Methods ----//
+    //-------------------------//
+    
+    
+    //---- HEADING HELPER -----//
     private final String getFormatedHeading(Receipt receipt){
         String formatedHeading = "";
         String title = "Thank You For Shoppig At " + receipt.getSellerName();
@@ -44,6 +58,7 @@ public class FullReceiptFormat implements ReceiptFormatter{
         return formatedHeading;
     }
     
+    //----- BODY HELPER -------//
     private final String getFormatedBody(Receipt receipt){
         int prodIdCol = 4; int nameCol = 15;
         int cashCol = 7;   int qntCol = 3;
@@ -55,25 +70,26 @@ public class FullReceiptFormat implements ReceiptFormatter{
         String itemCostColHead = "Itm Amt";
         String qntColHead = "QNT";
         String subAmtColHead = "Sub Amt";
-        String discountColHead = "You Save";
+        String discountColHead = "Discount";
         
         String formatedBody = prodIdColHead + space + nameColHead + space + itemCostColHead + space + 
-                qntColHead + space + subAmtColHead + space + discountColHead + space + NEW_LINE + LINE_BREAK;
+                qntColHead + space + discountColHead + space + subAmtColHead + space + NEW_LINE + LINE_BREAK;
         
         for(LineItem item : receipt.getLineItems()){
             Product product = database.findProduct(item.getProductId());
             if(product != null){
                 String itemString = "| "; 
-                itemString += setStringToLength(product.getProductId(),prodIdCol) + space;
-                itemString += setStringToLength(product.getProductName(),nameCol) + space;            
-                itemString += setStringToLength(getCashStringFromDouble(product.getUnitCost()),cashCol) + space;
-                itemString += setStringToLength(item.getQuantity()+"",qntCol) + space;
-                
-                double subAmount = product.calculateDiscount(item.getQuantity());
-                itemString += setStringToLength(getCashStringFromDouble(subAmount),cashCol) + space;
+                itemString += setStringToLength(product.getProductId(),prodIdCol,true) + space;
+                itemString += setStringToLength(product.getProductName(),nameCol,true) + space;            
+                itemString += setStringToLength(getCashStringFromDouble(product.getUnitCost()),cashCol,true) + space;
+                itemString += setStringToLength(item.getQuantity()+"",qntCol,true) + space;
                 
                 double savings = product.calculateSavings(item.getQuantity());
-                itemString += setStringToLength(getCashStringFromDouble(savings),discountCol) + space;
+                itemString += setStringToLength(getCashStringFromDouble(savings),discountCol,true) + space;
+                
+                double subAmount = product.calculateDiscount(item.getQuantity());
+                itemString += setStringToLength(getCashStringFromDouble(subAmount),cashCol,true) + space;
+                
                 itemString += NEW_LINE;
                 formatedBody += itemString;
             }//end of non-null product check
@@ -82,12 +98,50 @@ public class FullReceiptFormat implements ReceiptFormatter{
         return formatedBody + LINE_BREAK;
     }
     
-    private final String setStringToLength(String string, int length){
+    //----- FOOTER HELPER -----//
+    private final String getFormatedFooter(Receipt receipt){
+        String formatedFooter = "";
+        int cashCol = 10;
+        double grossTotal = 0;
+        double discountTotal = 0;
+        double grandTotal = 0;
+        
+        String grossTotalString = "Grand Total: ";
+        String discountTotalString = "Discount Total: ";
+        String grandTotalString = "Amount Owed: ";
+        
+        for(LineItem item : receipt.getLineItems()){
+            Product product = database.findProduct(item.getProductId());
+            if(product != null){
+                grossTotal += product.getUnitCost() * item.getQuantity();
+                discountTotal += product.calculateSavings(item.getQuantity());
+            }
+        }
+        grandTotal = grossTotal - discountTotal;
+        
+        formatedFooter += "|" + setStringToLength(grossTotalString, LINE_BREAK.length()-cashCol-1, false);
+        formatedFooter += setStringToLength(getCashStringFromDouble(grossTotal), cashCol-2,true) + "|" + NEW_LINE;
+        
+        formatedFooter += "|" + setStringToLength(discountTotalString, LINE_BREAK.length()-cashCol-1, false);
+        formatedFooter += setStringToLength(getCashStringFromDouble(discountTotal), cashCol-2,true) + "|" + NEW_LINE;
+        
+        formatedFooter += LINE_BREAK;
+        
+        formatedFooter += "|" + setStringToLength(grandTotalString, LINE_BREAK.length()-cashCol-1, false);
+        formatedFooter += setStringToLength(getCashStringFromDouble(grandTotal), cashCol-2,true) + "|" + NEW_LINE;
+        
+        formatedFooter += LINE_BREAK;
+        
+        return formatedFooter;
+    }
+    
+    private final String setStringToLength(String string, int length, boolean padAfter){
         if(string.length() > length) return string.substring(0,length);
         else {
             String longerString = string;
             int diffrence = length - string.length();
-            for(int i=0; i<diffrence; i++) longerString += " ";
+            if(padAfter) for(int i=0; i<diffrence; i++) longerString += " ";
+            else for(int i=0; i<diffrence; i++) longerString = " " + longerString;
             return longerString;
         }
     }
@@ -110,6 +164,9 @@ public class FullReceiptFormat implements ReceiptFormatter{
         }
     }
     
+    //-------------------------//
+    //-- Get and Set Methods --//
+    //-------------------------//
     
     public final void setDatabase(DatabaseStrategy database) {
         if(database == null) throw new IllegalArgumentException("Database is required for this format");
