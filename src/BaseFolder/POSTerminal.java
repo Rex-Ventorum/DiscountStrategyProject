@@ -12,21 +12,23 @@ public class POSTerminal {
     
     //CONFIGURABLE
     private OutputSource outputSource;
+    private String sellerName; 
     
     //-------------------------//
     //-- Constructor Methods --//
     //-------------------------//
-    public POSTerminal(ReceiptFormatter formatter, OutputSource outputSource) {
+    public POSTerminal(String sellerName, ReceiptFormatter formatter, OutputSource outputSource) {
         receiptService = new ReceiptService(formatter);
         transactionStarted = false;
         setOutputSource(outputSource);
+        setSellerName(sellerName);
     }
     
     //-------------------------//
     //-- Functional Methods ---//
     //-------------------------//
     
-    public final void startNewTransaction(String sellerName){
+    public final void startNewTransaction(){
         receiptService.startNewTransaction(sellerName);
         transactionStarted = true;
     }
@@ -61,6 +63,11 @@ public class POSTerminal {
         receiptService.setReceiptFormatter(formatter);
     }
     
+    public final void setSellerName(String sellerName){
+        if(sellerName == null) throw new IllegalArgumentException("Seller Name May Not Be Null");
+        this.sellerName = sellerName;
+    }
+    
     //-------------------------//
     //---- Getter Methods -----//
     //-------------------------//
@@ -73,4 +80,7 @@ public class POSTerminal {
         return receiptService.getReceiptFormatter();
     }
 
+    public final String getSellerName(){
+        return sellerName;
+    }
 }

@@ -8,7 +8,7 @@ public class MulitOutputSource implements OutputSource{
     
     
     @Override
-    public void outputData(Object data) {
+    public final void outputData(Object data) {
         for(OutputSource outputSource : outputSources){
             outputSource.outputData(data);
         }
@@ -19,7 +19,7 @@ public class MulitOutputSource implements OutputSource{
         this.outputSources = outputSources;
     }
 
-    public OutputSource[] getOutputSources() {
+    public final OutputSource[] getOutputSources() {
         return outputSources;
     }
     

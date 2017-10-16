@@ -16,7 +16,10 @@ public class InMemoryDatabase implements DatabaseStrategy{
        new Product("M102", "Mens T-Shirt", 5.00, new NoDiscount()),
        new Product("M103", "Mens Long Pants", 7.00, new PercentOffPerItemDiscount(.25)),   
        new Product("W102", "Womens T-Shirt", 5.00, new NoDiscount()),
-       new Product("W103", "Womens Long Pants", 7.00, new PercentOffPerItemDiscount(.25))
+       new Product("W103", "Womens Long Pants", 7.00, new PercentOffPerItemDiscount(.25)),
+       new Product("F110", "1 Gallon Milk 2%", 3.50, new BuyXGetXFreeDiscount(1,1)),
+       new Product("F112", "Dozon Large Eggs", 4.75, new NoDiscount()),
+       new Product("T010","Childrens 20 piece Puzzle",3.75, new NoDiscount())
     };
     
     @Override
