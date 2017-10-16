@@ -1,8 +1,7 @@
 package BaseFolder;
 
 import BaseFolder.DatabaseInterface.*;
-import BaseFolder.ReceiptFormatterInterface.ReceiptFormatter;
-import BaseFolder.ReceiptFormatterInterface.FullReceiptFormat;
+import BaseFolder.ReceiptFormatterInterface.*;
 import BaseFolder.OutputSourceInterface.*;
 
 public class StartUp {
@@ -11,6 +10,7 @@ public class StartUp {
     public static void main(String[] args) {
         DatabaseStrategy database = new InMemoryDatabase();
         ReceiptFormatter formatter = new FullReceiptFormat(database);
+        //ReceiptFormatter formatter = new InvitoryFormat();
         
         OutputSource out1 = new CounsolOutputSource();
         OutputSource out2 = new GUIOutputSource();
