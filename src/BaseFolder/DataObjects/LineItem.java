@@ -38,5 +38,5 @@ public class LineItem {
     public final int getQuantity() {
         return quantity;
     }
-    
+   
 }

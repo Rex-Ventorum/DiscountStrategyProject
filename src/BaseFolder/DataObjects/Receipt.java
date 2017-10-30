@@ -1,6 +1,7 @@
 
 package BaseFolder.DataObjects;
 
+import BaseFolder.CustomExceptions.NullValueInArrayException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -122,6 +123,7 @@ public class Receipt {
     public final void setLineItems(LineItem[] lineItems){
         if(lineItems == null || lineItems.length > MAX_ITEMS_PER_SALE)
             throw new IllegalArgumentException("Line Items May Not Be Null and may not exceed length of " + MAX_ITEMS_PER_SALE);
+        if(nullItemInArray(lineItems)) throw new NullValueInArrayException();
         this.lineItems = lineItems;
     }
     
@@ -156,5 +158,10 @@ public class Receipt {
     private final void testAddRemoveArgumentValilidy(String productId, int quantity){
         if(productId == null) throw new IllegalArgumentException("Product Id May Not Be Null");
         if(quantity < 0) throw new IllegalArgumentException("Quantity may not be negitive");
+    }
+    
+    private final boolean nullItemInArray(Object[] array){
+        for(Object item : array)  if(item == null) return true;
+        return false;
     }
 }

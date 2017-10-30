@@ -13,6 +13,7 @@ public class ReceiptService {
     
     public ReceiptService(ReceiptFormatter formater){
         setReceiptFormatter(formater);
+        receipt = new Receipt(null);
     }
     
     //-------------------------//
