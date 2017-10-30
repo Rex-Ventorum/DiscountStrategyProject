@@ -33,18 +33,18 @@ public class POSTerminal {
         transactionStarted = true;
     }
     
-    public final void addProductToTransaction(String productId, int quantity){
+    public final void addProductToTransaction(String productId, int quantity) throws IllegalStateException{
         if(transactionStarted) receiptService.addProduct(productId, quantity);
-        else throw new IllegalArgumentException(NO_TRANSACTION_ERROR_MSG);
+        else throw new IllegalStateException(NO_TRANSACTION_ERROR_MSG);
     }
     
-    public final void removeProductFromTransaction(String productId, int quantity){
+    public final void removeProductFromTransaction(String productId, int quantity) throws IllegalStateException{
         if(transactionStarted) receiptService.removeProduct(productId, quantity);
-        else throw new IllegalArgumentException(NO_TRANSACTION_ERROR_MSG);
+        else throw new IllegalStateException(NO_TRANSACTION_ERROR_MSG);
     }
     
-    public final void finishTransaction(String customerId){
-        if(!transactionStarted) throw new IllegalArgumentException(NO_TRANSACTION_ERROR_MSG);
+    public final void finishTransaction(String customerId) throws IllegalStateException{
+        if(!transactionStarted) throw new IllegalStateException(NO_TRANSACTION_ERROR_MSG);
         receiptService.finishTransaction(customerId);
         outputSource.outputData(receiptService.getFormatedReceiptString());
         transactionStarted = false;
@@ -72,6 +72,10 @@ public class POSTerminal {
     //---- Getter Methods -----//
     //-------------------------//
 
+    public final boolean transactionHasStarted(){
+        return transactionStarted;
+    }
+    
     public final OutputSource getOutputSource() {
         return outputSource;
     }
