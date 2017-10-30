@@ -28,6 +28,8 @@ public class POSTerminalTest {
     public void tearDown() {
     }
 
+    // Test Order of Method Call is Adheared too //
+    
     @Test
     public void startTransactionSetsFlagToTrue(){
         instance.startNewTransaction();
@@ -72,5 +74,22 @@ public class POSTerminalTest {
         instance.startNewTransaction();
         instance.finishTransaction("ID");
         assertFalse(instance.transactionHasStarted());
+    }
+    
+    // Test Setter Methods //
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void setOutputSourceThrowsErrorOnNull(){
+        instance.setOutputSource(null);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void setFormatterThrowsErrorOnNull(){
+        instance.setReceiptFormatter(null);
+    }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void setSellersNameThorwsErrorOnNull(){
+        instance.setSellerName(null);
     }
 }

@@ -54,16 +54,17 @@ public class POSTerminal {
     //---- Setter Methods -----//
     //-------------------------//
     
-    public final void setOutputSource(OutputSource outputSource){
+    public final void setOutputSource(OutputSource outputSource) throws IllegalArgumentException{
         if(outputSource == null) throw new IllegalArgumentException("Output Source May Not Be Null");
         this.outputSource = outputSource;
     }
     
-    public final void setReceiptFormatter(ReceiptFormatter formatter){
+    public final void setReceiptFormatter(ReceiptFormatter formatter) throws IllegalArgumentException{
+        if(outputSource == null) throw new IllegalArgumentException("Formatter May Not Be Null");
         receiptService.setReceiptFormatter(formatter);
     }
     
-    public final void setSellerName(String sellerName){
+    public final void setSellerName(String sellerName) throws IllegalArgumentException{
         if(sellerName == null) throw new IllegalArgumentException("Seller Name May Not Be Null");
         this.sellerName = sellerName;
     }
