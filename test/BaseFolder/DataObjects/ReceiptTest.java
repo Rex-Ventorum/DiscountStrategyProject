@@ -1,6 +1,7 @@
 package BaseFolder.DataObjects;
 
 import BaseFolder.CustomExceptions.NullValueInArrayException;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -45,7 +46,7 @@ public class ReceiptTest {
     
     @Test
     public void minimalConstructorCreatesEmptyReceipt(){
-        assertEquals(instance.getLineItems().length,0);
+        assertEquals(instance.getLineItems().size(),0);
         assertEquals(instance.getSellerName(),DUMMY_SELLER);
     }
     
@@ -81,10 +82,10 @@ public class ReceiptTest {
         instance.setCustomerId(null);
     }
     
-    @Test (expected = IllegalArgumentException.class)
-    public void setLineItemsThrowsErrorWhenNull(){
-        instance.setLineItems(null);
-    }
+//    @Test (expected = IllegalArgumentException.class)
+//    public void setLineItemsThrowsErrorWhenNull(){
+//        instance.setLineItems(null);
+//    }
     
     @Test (expected = IllegalArgumentException.class)
     public void setLineItemsThrowsErrorWithArrayLargerThanMax(){
@@ -115,21 +116,21 @@ public class ReceiptTest {
     
     @Test 
     public void addProductCreatesNewLineItemWithNewProducts(){
-        int lineItemsQntBefore = instance.getLineItems().length;
+        int lineItemsQntBefore = instance.getLineItems().size();
         instance.addProduct(DUMMY_PRODUCT_1, 1);
-        assertEquals(lineItemsQntBefore+1, instance.getLineItems().length);
+        assertEquals(lineItemsQntBefore+1, instance.getLineItems().size());
         instance.addProduct(DUMMY_PRODUCT_2,5);
-        assertEquals(lineItemsQntBefore+2,instance.getLineItems().length);
+        assertEquals(lineItemsQntBefore+2,instance.getLineItems().size());
     }
     
     @Test
     public void addProductAddsToExistingLineItemsWhenProductSame(){
         instance.addProduct(DUMMY_PRODUCT_1, 1);
         instance.addProduct(DUMMY_PRODUCT_2, 2);
-        int lineItemsQntBefore = instance.getLineItems().length;
+        int lineItemsQntBefore = instance.getLineItems().size();
         instance.addProduct(DUMMY_PRODUCT_1, 1);
         instance.addProduct(DUMMY_PRODUCT_2, 2);
-        int lineItemsQntAfter = instance.getLineItems().length;
+        int lineItemsQntAfter = instance.getLineItems().size();
         
         int expectedProduct1Qnt = 2;
         int actualProduct1Qnt = -1;//Default will insure if product not found test fails
@@ -137,7 +138,7 @@ public class ReceiptTest {
         int expectedProduct2Qnt = 4;
         int actualProduct2Qnt = -1;//Default will insure if product not found test fails
         
-        LineItem[] lineItems = instance.getLineItems();
+        List<LineItem> lineItems = instance.getLineItems();
         for(LineItem lineItem : lineItems){
             if(lineItem.getProductId().equals(DUMMY_PRODUCT_1)){
                actualProduct1Qnt = lineItem.getQuantity();
@@ -154,10 +155,10 @@ public class ReceiptTest {
     
     @Test
     public void removeProductNoQntRemovesProductComplelty(){
-        int lineItemsQntBefore = instance.getLineItems().length;
+        int lineItemsQntBefore = instance.getLineItems().size();
         instance.addProduct(DUMMY_PRODUCT_1, 5);
         instance.removeProduct(DUMMY_PRODUCT_1);
-        int lineItemsQntAfter = instance.getLineItems().length;
+        int lineItemsQntAfter = instance.getLineItems().size();
         
         for(LineItem lineItem : instance.getLineItems()){
             if(lineItem.getProductId().equals(DUMMY_PRODUCT_1)) fail("Item Not Removed");
@@ -168,10 +169,10 @@ public class ReceiptTest {
     
     @Test
     public void removeProductLargerQntThanExistingRemovesProductCompletly(){
-        int lineItemsQntBefore = instance.getLineItems().length;
+        int lineItemsQntBefore = instance.getLineItems().size();
         instance.addProduct(DUMMY_PRODUCT_1, 5);
         instance.removeProduct(DUMMY_PRODUCT_1,50);
-        int lineItemsQntAfter = instance.getLineItems().length;
+        int lineItemsQntAfter = instance.getLineItems().size();
         
         for(LineItem lineItem : instance.getLineItems()){
             if(lineItem.getProductId().equals(DUMMY_PRODUCT_1)) fail("Item Not Removed");
@@ -222,9 +223,9 @@ public class ReceiptTest {
     @Test
     public void addProductDoesNotAddItemWhenProductMaxReached(){
         setLineItemsToMax();
-        int lineItemsQntBefore = instance.getLineItems().length;
+        int lineItemsQntBefore = instance.getLineItems().size();
         instance.addProduct(DUMMY_PRODUCT_1, 5);
-        int lineItemsQntAfter = instance.getLineItems().length;
+        int lineItemsQntAfter = instance.getLineItems().size();
         assertEquals(lineItemsQntBefore,lineItemsQntAfter);
     }
     

@@ -5,6 +5,8 @@ import BaseFolder.CustomExceptions.NullValueInArrayException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Receipt {
     public static final int MAX_ITEMS_PER_SALE = 100;
@@ -12,7 +14,7 @@ public class Receipt {
     private Date timeStamp;
     private String sellerName;
     private String customerId;
-    private LineItem[] lineItems;
+    private List<LineItem> lineItems;
     
     //----------------------//
     //---- Constructor -----//
@@ -26,10 +28,10 @@ public class Receipt {
     }
     
     public Receipt(Date timeStamp,String sellerName, String customerId){
-        this(timeStamp,sellerName,customerId,new LineItem[]{});
+        this(timeStamp,sellerName,customerId,new LinkedList<>());
     }
     
-    public Receipt(Date timeStamp,String sellerName,String customerId, LineItem[] lineItems){
+    public Receipt(Date timeStamp,String sellerName,String customerId, List<LineItem> lineItems){
         setTimeStamp(timeStamp);    setSellerName(sellerName);
         setCustomerId(customerId);  setLineItems(lineItems);
     }
@@ -56,10 +58,8 @@ public class Receipt {
             itemWasAdded = true;
         //Else Add New Item if lineItems not alreay At Max
         }else{
-           if(lineItems.length < MAX_ITEMS_PER_SALE){
-               LineItem[] newArray = Arrays.copyOf(lineItems, lineItems.length+1);
-               newArray[lineItems.length] = new LineItem(productId, quantity);
-               lineItems = newArray;
+           if(lineItems.size() < MAX_ITEMS_PER_SALE){
+               lineItems.add(new LineItem(productId, quantity));
                itemWasAdded = true;
            }
         }
@@ -73,10 +73,10 @@ public class Receipt {
         
         //Check for existing item
         LineItem existing = null;
-        int removalIndex = 0;
-        for(int i =0; i<lineItems.length; i++){
-            if(lineItems[i].getProductId().equals(productId)){
-                existing = lineItems[i]; removalIndex = i; break;
+        for(int i =0; i<lineItems.size(); i++){
+            LineItem searchItem = lineItems.get(i);
+            if(searchItem.getProductId().equals(productId)){
+                existing = searchItem; break;
             }
         }
         
@@ -84,12 +84,7 @@ public class Receipt {
         if(existing != null){
             //Remove completly if quantity is greater or equal to existing quanity
             if(existing.getQuantity() <= quantity){
-                LineItem[] newArray = new LineItem[lineItems.length-1];
-                for(int i=0; i<newArray.length; i++){
-                    if(i < removalIndex) newArray[i] = lineItems[i];
-                    else newArray[i] = lineItems[i+1];
-                }//end of for loop
-                lineItems = newArray;
+                lineItems.remove(existing);
             //Subtract Quantity if product exists and deduction would leave non negitive non zero amount
             }else{
                 existing.setQuantity(existing.getQuantity()-quantity);
@@ -124,6 +119,14 @@ public class Receipt {
         if(lineItems == null || lineItems.length > MAX_ITEMS_PER_SALE)
             throw new IllegalArgumentException("Line Items May Not Be Null and may not exceed length of " + MAX_ITEMS_PER_SALE);
         if(nullItemInArray(lineItems)) throw new NullValueInArrayException();
+        this.lineItems.clear();
+        for(LineItem item : lineItems) this.lineItems.add(item);
+    }
+    
+    public final void setLineItems(List<LineItem> lineItems){
+        if(lineItems == null || lineItems.size() > MAX_ITEMS_PER_SALE)
+            throw new IllegalArgumentException("Line Items May Not Be Null and may not exceed length of " + MAX_ITEMS_PER_SALE);
+        if(lineItems.contains(null)) throw new NullValueInArrayException();
         this.lineItems = lineItems;
     }
     
@@ -142,7 +145,7 @@ public class Receipt {
         return customerId;
     }
 
-    public final LineItem[] getLineItems() {
+    public final List<LineItem> getLineItems() {
         return lineItems;
     }
     

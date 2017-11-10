@@ -38,5 +38,14 @@ public class LineItem {
     public final int getQuantity() {
         return quantity;
     }
-   
+    
+    //----------------------//
+    //-- Overriden Methods -//
+    //----------------------//
+    
+    public final boolean equals(Object object){
+        if(!(object instanceof LineItem)) return false;
+        LineItem lineItem = (LineItem) object;
+        return lineItem.getProductId().equals(productId);
+    }
 }
