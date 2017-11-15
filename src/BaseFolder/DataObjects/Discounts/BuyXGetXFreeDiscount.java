@@ -66,6 +66,43 @@ public class BuyXGetXFreeDiscount implements Discount{
         return freeAmount;
     }
 
+    //-------------------------//
+    //--- Overriden Methods ---//
+    //-------------------------//
 
+    @Override
+    public final int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + this.buyAmount;
+        hash = 97 * hash + this.freeAmount;
+        return hash;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BuyXGetXFreeDiscount other = (BuyXGetXFreeDiscount) obj;
+        if (this.buyAmount != other.buyAmount) {
+            return false;
+        }
+        if (this.freeAmount != other.freeAmount) {
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public final String toString(){
+        return "Buy " + buyAmount + " Get " + freeAmount + " Discount";
+    }
+    
     
 }

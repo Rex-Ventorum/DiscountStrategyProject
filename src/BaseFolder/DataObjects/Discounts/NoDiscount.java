@@ -12,4 +12,13 @@ public class NoDiscount implements Discount{
         return 0;
     }
     
+    @Override
+    public final boolean equals(Object object){
+        return object instanceof NoDiscount;
+    }
+    
+    @Override
+    public final String toString(){
+        return "A No Discount Discount Object";
+    }
 }
