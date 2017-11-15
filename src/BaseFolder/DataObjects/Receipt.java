@@ -2,16 +2,15 @@
 package BaseFolder.DataObjects;
 
 import BaseFolder.CustomExceptions.NullValueInArrayException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Receipt {
     public static final int MAX_ITEMS_PER_SALE = 100;
     
-    private Date timeStamp;
+    private LocalDateTime timeStamp;
     private String sellerName;
     private String customerId;
     private List<LineItem> lineItems;
@@ -24,14 +23,14 @@ public class Receipt {
         this(sellerName, "N/A");
     }
     public Receipt(String sellerName, String customerId){
-        this(Calendar.getInstance().getTime(),sellerName,customerId);
+        this(LocalDateTime.now(),sellerName,customerId);
     }
     
-    public Receipt(Date timeStamp,String sellerName, String customerId){
+    public Receipt(LocalDateTime timeStamp,String sellerName, String customerId){
         this(timeStamp,sellerName,customerId,new LinkedList<>());
     }
     
-    public Receipt(Date timeStamp,String sellerName,String customerId, List<LineItem> lineItems){
+    public Receipt(LocalDateTime timeStamp,String sellerName,String customerId, List<LineItem> lineItems){
         setTimeStamp(timeStamp);    setSellerName(sellerName);
         setCustomerId(customerId);  setLineItems(lineItems);
     }
@@ -97,7 +96,7 @@ public class Receipt {
     //----------------------//
     //--- Setter Methods ---//
     //----------------------//
-    public final void setTimeStamp(Date date){
+    public final void setTimeStamp(LocalDateTime date){
         if(date == null || dateIsInFuture(date))
             throw new IllegalArgumentException("Date May Not be Null or In the Future");
         timeStamp = date;
@@ -133,7 +132,7 @@ public class Receipt {
     //----------------------//
     //--- Getter Methods ---//
     //----------------------//
-    public final Date getTimeStamp() {
+    public final LocalDateTime getTimeStamp() {
         return timeStamp;
     }
 
@@ -153,9 +152,8 @@ public class Receipt {
     //- Validation Methods -//
     //----------------------//
     
-    private final boolean dateIsInFuture(Date testDate){
-        Date today = Calendar.getInstance().getTime();
-        return testDate.after(today);
+    private final boolean dateIsInFuture(LocalDateTime testDate){
+        return testDate.isAfter(LocalDateTime.now());
     }
     
     private final void testAddRemoveArgumentValilidy(String productId, int quantity){
@@ -166,5 +164,43 @@ public class Receipt {
     private final boolean nullItemInArray(Object[] array){
         for(Object item : array)  if(item == null) return true;
         return false;
+    }
+    
+    //-------------------------//
+    //--- Overriden Methods ---//
+    //-------------------------//
+
+    @Override
+    public final int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.timeStamp);
+        hash = 23 * hash + Objects.hashCode(this.customerId);
+        return hash;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Receipt other = (Receipt) obj;
+        if (!Objects.equals(this.customerId, other.customerId)) {
+            return false;
+        }
+        if (!Objects.equals(this.timeStamp, other.timeStamp)) {
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public final String toString(){
+        return sellerName + " Sale Receipt Object";
     }
 }

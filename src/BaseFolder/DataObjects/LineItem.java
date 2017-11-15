@@ -1,5 +1,7 @@
 package BaseFolder.DataObjects;
 
+import java.util.Objects;
+
 public class LineItem {
     private String productId;
     private int quantity;
@@ -39,13 +41,27 @@ public class LineItem {
         return quantity;
     }
     
-    //----------------------//
-    //-- Overriden Methods -//
-    //----------------------//
+    //-------------------------//
+    //--- Overriden Methods ---//
+    //-------------------------//
     
-    public final boolean equals(Object object){
+    @Override
+    public final int hashCode(){
+        int hash = 3;
+        hash = 79 * hash + Objects.hashCode(this.productId);
+        return hash;
+    }
+
+    @Override
+    public final boolean equals(Object object) {
         if(!(object instanceof LineItem)) return false;
         LineItem lineItem = (LineItem) object;
         return lineItem.getProductId().equals(productId);
     }
+    
+    @Override
+    public final String toString(){
+        return productId + " x" + quantity; 
+    }
+    
 }

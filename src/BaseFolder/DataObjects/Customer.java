@@ -1,5 +1,7 @@
 package BaseFolder.DataObjects;
 
+import java.util.Objects;
+
 public class Customer {
     private static final int MAX_NAME_LENGTH = 15;
     private static final int MIN_NAME_LENGTH = 2;
@@ -60,4 +62,37 @@ public class Customer {
         return testName.length() >= MIN_NAME_LENGTH && testName.length() <= MAX_NAME_LENGTH;
     }
     
+    //-------------------------//
+    //--- Overriden Methods ---//
+    //-------------------------//
+
+    @Override
+    public final int hashCode() {
+        int hash = 5;
+        hash = 67 * hash + Objects.hashCode(this.customerId);
+        return hash;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Customer other = (Customer) obj;
+        if (!Objects.equals(this.customerId, other.customerId)) {
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public final String toString(){
+        return customerId + ": " + firstName + " " + lastName;
+    }
 }
