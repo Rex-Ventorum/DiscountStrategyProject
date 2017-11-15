@@ -2,11 +2,14 @@ package BaseFolder;
 
 import BaseFolder.OutputSourceInterface.OutputSource;
 import BaseFolder.ReceiptFormatterInterface.ReceiptFormatter;
+import java.util.Objects;
+import java.util.UUID;
 
 public class POSTerminal {
     private static final String NO_TRANSACTION_ERROR_MSG = "Transaction Has Not Been Started yet";
     
     //FOR INTERNAL USE ONLY
+    private String terminalId;
     private final ReceiptService receiptService;
     private boolean transactionStarted;
     
@@ -22,6 +25,7 @@ public class POSTerminal {
         transactionStarted = false;
         setOutputSource(outputSource);
         setSellerName(sellerName);
+        terminalId = UUID.randomUUID().toString();
     }
     
     //-------------------------//
@@ -69,6 +73,12 @@ public class POSTerminal {
         this.sellerName = sellerName;
     }
     
+    public final void setTerminalId(String terminalId) throws IllegalArgumentException{
+        if(terminalId == null || terminalId.isEmpty() || terminalId.length() < 8) 
+            throw new IllegalArgumentException("Terminal Id must be at least length of 8");
+        this.terminalId = terminalId;
+    }
+    
     //-------------------------//
     //---- Getter Methods -----//
     //-------------------------//
@@ -88,4 +98,43 @@ public class POSTerminal {
     public final String getSellerName(){
         return sellerName;
     }
+    
+    public final String getTerminalId(){
+        return terminalId;
+    }
+    
+    //-------------------------//
+    //--- Overriden Methods ---//
+    //-------------------------//
+
+    @Override
+    public final int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.terminalId);
+        return hash;
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final POSTerminal other = (POSTerminal) obj;
+        if (!Objects.equals(this.terminalId, other.terminalId)) {
+            return false;
+        }
+        return true;
+    }
+    
+    @Override
+    public final String toString(){
+        return "This Is A POS Terminal Owned by : " + sellerName;
+    }
+    
 }
