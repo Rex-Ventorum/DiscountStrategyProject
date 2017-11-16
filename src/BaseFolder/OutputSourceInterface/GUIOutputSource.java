@@ -14,4 +14,14 @@ public class GUIOutputSource implements OutputSource {
         UIManager.put("Label.font", original);
     }
     
+    @Override
+    public final boolean equals(Object object){
+        return object instanceof GUIOutputSource;
+    }
+    
+    @Override
+    public final String toString(){
+        return "A GUI Output Source Object";
+    }
+    
 }

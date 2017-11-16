@@ -13,4 +13,14 @@ public class CounsolOutputSource implements OutputSource{
     public final void outputData(Object data) {
         System.out.println(data);
     }
+    
+    @Override
+    public final boolean equals(Object object){
+        return object instanceof CounsolOutputSource;
+    }
+    
+    @Override
+    public final String toString(){
+        return "A Counsol Output Source Object";
+    }
 }
